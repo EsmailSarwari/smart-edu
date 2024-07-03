@@ -1,0 +1,31 @@
+{
+    "name": "smartedu",
+    "version": "1.0.0",
+    "description": "smait edu portal",
+    "main": "app.js",
+    "type": "module",
+    "scripts": {
+        "start": "nodemon app.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/EsmailSarwari/smart-edu.git"
+    },
+    "keywords": [
+        "smart",
+        "education",
+        "portal"
+    ],
+    "author": "Esmail Sarwari",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/EsmailSarwari/smart-edu/issues"
+    },
+    "homepage": "https://github.com/EsmailSarwari/smart-edu#readme",
+    "dependencies": {
+        "express": "^4.19.2"
+    },
+    "devDependencies": {
+        "nodemon": "^3.1.4"
+    }
+}
