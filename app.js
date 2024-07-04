@@ -1,15 +1,17 @@
 import express, { urlencoded } from 'express';
 import mongoose from 'mongoose';
+import 'dotenv/config';
 const app = express();
-const port = 3000;
 
 // route controllers
 import pageRoutes from './routes/pageRoutes.js';
 import courseRoutes from './routes/courseRoutes.js';
 
 // db connection
+const port = process.env.PORT || 3000;
+const mongodb_uri = process.env.MONGODB_URI;
 mongoose
-    .connect('mongodb://localhost/smartedu-db')
+    .connect(mongodb_uri)
     .then(console.log('DB connected successfully'))
     .catch(console.error());
 
