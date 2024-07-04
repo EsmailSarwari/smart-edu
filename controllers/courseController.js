@@ -1,15 +1,30 @@
 import Course from '../models/Course.js';
 
 export const createCourse = async (req, res) => {
-    const courses = await Course.create(req.body);
     try {
+        const course = await Course.create(req.body);
         res.status(201).json({
-            status: Success,
-            courses,
+            status: 'Success',
+            course,
         });
     } catch (error) {
         res.status(400).json({
-            status: Fail,
+            status: 'Fail',
+            error,
+        });
+    }
+};
+
+export const getAllCourses = async (req, res) => {
+    try {
+        const courses = await Course.find();
+        res.status(200).render('courses', {
+            courses,
+            page_name: 'courses',
+        });
+    } catch (error) {
+        res.status(400).json({
+            status: 'Faild',
             error,
         });
     }
