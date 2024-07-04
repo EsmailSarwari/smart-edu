@@ -6,6 +6,7 @@ const app = express();
 // route controllers
 import pageRoutes from './routes/pageRoutes.js';
 import courseRoutes from './routes/courseRoutes.js';
+import categoryRoutes from './routes/categoryRoutes.js';
 
 // db connection
 const port = process.env.PORT || 3000;
@@ -26,6 +27,7 @@ app.use(urlencoded({ extended: true }));
 // routes
 app.use('/', pageRoutes);
 app.use('/courses', courseRoutes);
+app.use('/categories', categoryRoutes); 
 
 app.listen(port, () => {
     console.log(`App is running on server ${port}`);
