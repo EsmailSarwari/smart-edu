@@ -34,7 +34,7 @@ export const getAllCourses = async (req, res) => {
             filter = { category: category._id };
         }
         const [courses, categories] = await Promise.all([
-            Course.find(filter).sort({ dateCreate: -1 }),
+            Course.find(filter).sort({ dateCreated: -1 }),
             Category.find(),
         ]);
 
