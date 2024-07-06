@@ -1,6 +1,7 @@
 import express, { urlencoded } from 'express';
 import mongoose from 'mongoose';
 import session from 'express-session';
+import connectMongo from 'connect-mongo';
 import 'dotenv/config';
 const app = express();
 
@@ -30,6 +31,7 @@ app.use(
         secret: 'very secret',
         resave: false,
         saveUninitialized: true,
+        store: connectMongo.create({ mongoUrl: mongodb_uri})
     })
 );
 
