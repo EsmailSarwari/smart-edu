@@ -1,5 +1,6 @@
 import express, { urlencoded } from 'express';
 import mongoose from 'mongoose';
+import session from 'express-session';
 import 'dotenv/config';
 const app = express();
 
@@ -24,8 +25,20 @@ app.set('view engine', 'ejs');
 app.use(express.static('public'));
 app.use(express.json());
 app.use(urlencoded({ extended: true }));
+app.use(
+    session({
+        secret: 'very secret',
+        resave: false,
+        saveUninitialized: true,
+    })
+);
 
 // routes
+global.isUserSignedIn = null;
+app.use('*', (req, res, next) => {
+    isUserSignedIn = req.session.userID;
+    next();
+});
 app.use('/', pageRoute);
 app.use('/courses', courseRoute);
 app.use('/categories', categoryRoute);
