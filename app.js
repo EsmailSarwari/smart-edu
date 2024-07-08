@@ -3,13 +3,14 @@ import mongoose from 'mongoose';
 import session from 'express-session';
 import connectMongo from 'connect-mongo';
 import 'dotenv/config';
-const app = express();
 
 // route controllers
 import pageRoute from './routes/pageRoutes.js';
 import courseRoute from './routes/courseRoutes.js';
 import categoryRoute from './routes/categoryRoutes.js';
 import userRoute from './routes/userRoutes.js';
+
+const app = express();
 
 // db connection
 const port = process.env.PORT || 3000;

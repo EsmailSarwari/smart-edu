@@ -1,14 +1,18 @@
-import Course from '../models/Course.js';
-import Category from '../models/Category.js';
+import Course from '../models/courseModel.js';
+import Category from '../models/categoryModel.js';
+import User from '../models/userModel.js';
 
 export const createCourse = async (req, res) => {
     try {
-        const course = await Course.create(req.body);
-        res.status(201).redirect('/courses');
+        await Course.create({
+            ...req.body,
+            user: req.session.userID,
+        });
+        res.status(201).redirect('/users/dashboard');
     } catch (error) {
         res.status(400).json({
             status: 'Fail',
-            error,
+            error: error.message,
         });
     }
 };
@@ -51,14 +55,19 @@ export const getAllCourses = async (req, res) => {
 export const getCourse = async (req, res) => {
     try {
         const course = await Course.findOne({ slug: req.params.slug });
+        const whichTeacher = await User.findById({ _id: course.user });
+
+        const categories = await Category.find();
         res.status(200).render('course', {
             course,
+            categories,
+            whichTeacher,
             page_name: 'course',
         });
     } catch (error) {
         res.status(400).json({
             status: 'Faild',
-            error,
+            error: error.message,
         });
     }
 };

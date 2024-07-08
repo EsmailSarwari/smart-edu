@@ -1,4 +1,4 @@
-import mongoose, { Schema, model } from 'mongoose';
+import { Schema, model } from 'mongoose';
 import slugify from 'slugify';
 
 const courseSchema = new Schema({
@@ -20,8 +20,12 @@ const courseSchema = new Schema({
         unique: true,
     },
     category: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Category',
+        type: Schema.Types.ObjectId,
+        ref: 'categoryModel',
+    },
+    user: {
+        type: Schema.Types.ObjectId,
+        ref: 'userModel'
     },
 });
 
