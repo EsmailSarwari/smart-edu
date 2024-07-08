@@ -49,3 +49,4 @@ app.use('/users', userRoute);
 app.listen(port, () => {
     console.log(`App is running on server ${port}`);
 });
+
