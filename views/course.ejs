@@ -4,7 +4,10 @@
 		<div class="all-title-box">
 			<div class="container text-center">
 				<h1>
-					<%= course.name %><span class="m_1"><%= course.description %></span>
+					<%= course.name %>
+						<span class="m_1">
+							<%= course.description %>
+						</span>
 				</h1>
 			</div>
 		</div>
@@ -18,12 +21,26 @@
 								<img src="/images/blog_single.jpg" alt="" class="img-fluid">
 							</div>
 							<div class="post-content">
+								<% if (user && !(user.courses.includes(course._id))) { %> 
 								<div class="post-date">
-									<span class="day">30</span>
-									<span class="month">Nov</span>
+									<form method="POST" action="/courses/enroll">
+										<input type="hidden" name="course_id" value="<%= course._id %>">
+										<button class="btn btn-warning btn-lg text-white"><span>Enroll</span></button>
+									</form>
 								</div>
+								<% } else if (user && (user.courses.includes(course._id))){ %>
+									<div class="post-date">
+										<form method="POST" action="/courses/release">
+											<input type="hidden" name="course_id" value="<%= course._id %>">
+											<button
+												class="btn btn-danger btn-lg text-white"><span>Release</span></button>
+										</form>
+									</div>
+									<% }%>
 								<div class="meta-info-blog">
-									<span><i class="fa fa-calendar"></i> <a href="#"><%= course.dateCreated %></a> </span>
+									<span><i class="fa fa-calendar"></i> <a href="#">
+											<%= course.dateCreated %>
+										</a> </span>
 								</div>
 								<div class="blog-title">
 									<h2><a href="#" title="">
@@ -31,7 +48,9 @@
 										</a></h2>
 								</div>
 								<div class="blog-desc">
-									<p><%= course.slug %></p>
+									<p>
+										<%= course.slug %>
+									</p>
 									<blockquote class="default">
 										<%= course.description %>
 									</blockquote>
@@ -41,16 +60,13 @@
 
 						<div class="blog-author">
 							<div class="author-bio">
-								<h3 class="author_name"><a href="#"><%= whichTeacher.name %></a></h3>
+								<h3 class="author_name"><a href="#">
+										<%= whichTeacher.name %>
+									</a></h3>
 								<h5>INSTRUCTOR at <a href="#">SmartEDU</a></h5>
 							</div>
 							<div class="author-desc">
 								<img src="/images/author.jpg" alt="about author">
-								<ul class="author-social">
-									<li><a href="#"><i class="fa fa-facebook"></i></a></li>
-									<li><a href="#"><i class="fa fa-twitter"></i></a></li>
-									<li><a href="#"><i class="fa fa-skype"></i></a></li>
-								</ul>
 							</div>
 						</div>
 

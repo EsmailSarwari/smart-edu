@@ -91,12 +91,15 @@ export const logOutUser = (req, res) => {
 
 export const getDashboardPage = async (req, res) => {
     const user = await User.findOne({ _id: req.session.userID });
-    const courses = await Courses.find({ user: req.session.userID });
+    const teacherCourses = await Courses.find({ user: req.session.userID });
+    const studentCourses = await Courses.find({ _id: user.courses});
     const categories = await Category.find();
+
     res.status(200).render('dashboard', {
         page_name: 'dashboard',
         user,
         categories,
-        courses,
+        teacherCourses,
+        studentCourses,
     });
 };

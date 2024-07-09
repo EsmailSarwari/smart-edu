@@ -54,16 +54,48 @@ export const getAllCourses = async (req, res) => {
 
 export const getCourse = async (req, res) => {
     try {
+        const user = await User.findOne({ _id: req.session.userID });
         const course = await Course.findOne({ slug: req.params.slug });
         const whichTeacher = await User.findById({ _id: course.user });
 
         const categories = await Category.find();
         res.status(200).render('course', {
+            user,
             course,
             categories,
             whichTeacher,
             page_name: 'course',
         });
+    } catch (error) {
+        res.status(400).json({
+            status: 'Faild',
+            error: error.message,
+        });
+    }
+};
+
+export const enrollCourse = async (req, res) => {
+    try {
+        const user = await User.findById({ _id: req.session.userID });
+        user.courses.push({ _id: req.body.course_id });
+        await user.save();
+
+        res.status(200).redirect('/users/dashboard');
+    } catch (error) {
+        res.status(400).json({
+            status: 'Faild',
+            error: error.message,
+        });
+    }
+};
+
+export const releaseCourse = async (req, res) => {
+    try {
+        const user = await User.findById({ _id: req.session.userID });
+        user.courses.pull({ _id: req.body.course_id });
+        await user.save();
+
+        res.status(200).redirect('/users/dashboard');
     } catch (error) {
         res.status(400).json({
             status: 'Faild',
