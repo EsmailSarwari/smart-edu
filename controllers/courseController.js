@@ -20,6 +20,7 @@ export const createCourse = async (req, res) => {
 export const getAllCourses = async (req, res) => {
     try {
         const categorySlug = req.query.categories;
+        const searchQuery = req.query.search;
         let filter = {};
 
         if (categorySlug) {
@@ -34,11 +35,31 @@ export const getAllCourses = async (req, res) => {
 
             filter = { category: category._id };
         }
+
+        if (searchQuery) {
+            filter = { name: searchQuery };
+        }
+
+        if (!searchQuery && !categorySlug) {
+            (filter.name = ''), (filter.category = null);
+        }
+
         const [courses, categories] = await Promise.all([
-            Course.find(filter).sort({ dateCreated: -1 }),
+            Course.find({
+                $or: [
+                    {
+                        name: {
+                            $regex: '.*' + filter.name + '.*',
+                            $options: 'i',
+                        },
+                    },
+                    { category: filter.category },
+                ],
+            }).sort({ dateCreated: -1 }),
             Category.find(),
         ]);
 
+        // populate user to print the teacher name on courses name
         res.status(200).render('courses', {
             courses,
             categories,

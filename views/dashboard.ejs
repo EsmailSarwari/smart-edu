@@ -50,7 +50,7 @@
 									</a>
 									<div class="course-desc">
 										<p>
-											<%= studentCourses[i].description %>
+											<%= studentCourses[i].description.substring(0, 100) + '...' %>
 										</p>
 									</div>
 									<div class="post-date">
@@ -124,7 +124,7 @@
 											</a>
 											<div class="course-desc">
 												<p>
-													<%= teacherCourses[i].description %>
+													<%= teacherCourses[i].description.substring(0, 100) + '...' %>
 												</p>
 											</div>
 										</div>
