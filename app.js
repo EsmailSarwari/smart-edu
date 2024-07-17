@@ -2,6 +2,7 @@ import express, { urlencoded } from 'express';
 import mongoose from 'mongoose';
 import session from 'express-session';
 import connectMongo from 'connect-mongo';
+import flash from 'connect-flash';
 import 'dotenv/config';
 
 // route controllers
@@ -32,9 +33,14 @@ app.use(
         secret: 'very secret',
         resave: false,
         saveUninitialized: true,
-        store: connectMongo.create({ mongoUrl: mongodb_uri})
+        store: connectMongo.create({ mongoUrl: mongodb_uri }),
     })
 );
+app.use(flash());
+app.use((req, res, next) => {
+    res.locals.flashMessages = req.flash();
+    next();
+});
 
 // routes
 global.isUserSignedIn = null;
@@ -50,4 +56,3 @@ app.use('/users', userRoute);
 app.listen(port, () => {
     console.log(`App is running on server ${port}`);
 });
-

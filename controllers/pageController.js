@@ -19,42 +19,48 @@ export const getContactPage = (req, res) => {
     });
 };
 
-export const sendEmail = (req, res) => {
-    const outputMessage = `
-    <h3> Name: </h3> <p> Mr. ${req.body.name} </p>
-    <h3> Email: </h3> <p> ${req.body.email} </p>
-
-    <h3> Message: </h3>
-    <p> ${req.body.message} </p>
+export const sendEmail = async (req, res) => {
+    try {
+        const outputMessage = `
+        <h3> Name: </h3> <p> Mr. ${req.body.name} </p>
+        <h3> Email: </h3> <p> ${req.body.email} </p>
     
-    `;
+        <h3> Message: </h3>
+        <p> ${req.body.message} </p>
+        
+        `;
 
-    const transporter = nodemailer.createTransport({
-        host: 'smtp.ethereal.email',
-        port: 587,
-        auth: {
-            user: 'ora.skiles@ethereal.email',
-            pass: 'My5k7H6MseXSFq32nn'
-        }
-    });
-
-    // async..await is not allowed in global scope, must use a wrapper
-    async function main() {
-        // send mail with defined transport object
-        const info = await transporter.sendMail({
-            from: '"Maddison Foo Koch 👻" <ora.skiles@ethereal.email>', // sender address
-            to: 'esmail.sarwari10@gmail.com', // list of receivers
-            subject: 'SMART EDU ✔', // Subject line
-            html: outputMessage, // html body
+        const transporter = nodemailer.createTransport({
+            host: 'smtp.ethereal.email',
+            port: 587,
+            auth: {
+                user: 'conner.langworth@ethereal.email',
+                pass: 'mVt7Nhv4nGEchSeBZU',
+            },
         });
 
-        console.log('Message sent: %s', info.messageId);
-        // Message sent: <d786aa62-4e0a-070a-47ed-0b0666549519@ethereal.email>
+        // async..await is not allowed in global scope, must use a wrapper
+        async function main() {
+            // send mail with defined transport object
+            const info = await transporter.sendMail({
+                from: '"Maddison Foo Koch 👻" <ora.skiles@ethereal.email>', // sender address
+                to: 'esmail.sarwari10@gmail.com', // list of receivers
+                subject: 'SMART EDU ✔', // Subject line
+                html: outputMessage, // html body
+            });
+
+            console.log('Message sent: %s', info.messageId);
+            // Message sent: <d786aa62-4e0a-070a-47ed-0b0666549519@ethereal.email>
+        }
+
+        await main();
+
+        req.flash('success', 'Your Messages has been received successfully');
+        res.status(200).redirect('/contact');
+    } catch (error) {
+        req.flash('error', `Error occured ${error}`);
+        res.status(200).redirect('/contact');
     }
-
-    main().catch(console.error);
-
-    res.status(200).redirect('/contact');
 };
 
 export const getRegisterPage = (req, res) => {
