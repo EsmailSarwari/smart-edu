@@ -32,6 +32,22 @@
 
 						</div><!-- end col -->
 					</div><!-- end row -->
+					<br>
+
+					<% if (flashMessages) { %>
+
+						<% if (flashMessages.success) { %>
+							<div class="alert alert-success">
+								<%= flashMessages.success %>
+							</div>
+
+						<% } else if(flashMessages.error) { %>
+							<div class="alert alert-danger">
+								<%= flashMessages.error %>
+							</div>
+							<% } %>
+
+					<% } %>
 
 					<div class="row mt-5">
 						<% for (let i=0; i < studentCourses.length; i++) { %>
@@ -106,6 +122,23 @@
 
 								</div><!-- end col -->
 							</div><!-- end row -->
+							<br>
+							
+							<% if (flashMessages) { %>
+
+								<% if (flashMessages.success) { %>
+									<div class="alert alert-success">
+										<%= flashMessages.success %>
+									</div>
+	
+								<% } else if(flashMessages.error) { %>
+									<div class="alert alert-danger">
+										<%= flashMessages.error %>
+									</div>
+									<% } %>
+	
+							<% } %>
+
 							<div class="row mt-5">
 
 								<% for (let i=0; i < teacherCourses.length; i++) { %>

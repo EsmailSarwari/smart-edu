@@ -59,7 +59,7 @@ export const sendEmail = async (req, res) => {
         res.status(200).redirect('/contact');
     } catch (error) {
         req.flash('error', `Error occured ${error}`);
-        res.status(200).redirect('/contact');
+        res.status(400).redirect('/contact');
     }
 };
 

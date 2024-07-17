@@ -8,12 +8,17 @@ export const createCourse = async (req, res) => {
             ...req.body,
             user: req.session.userID,
         });
+        req.flash(
+            'success',
+            `${req.body.name}, course has been created successfully!`
+        );
         res.status(201).redirect('/users/dashboard');
     } catch (error) {
-        res.status(400).json({
-            status: 'Fail',
-            error: error.message,
-        });
+        req.flash(
+            'error',
+            `Error! ${req.body.name}, course couldn't be created!`
+        );
+        res.status(400).redirect('/users/dashboard');
     }
 };
 
@@ -101,12 +106,11 @@ export const enrollCourse = async (req, res) => {
         user.courses.push({ _id: req.body.course_id });
         await user.save();
 
+        req.flash('success', `You have successfully enrolled in the course "${req.body.course_name}".`);
         res.status(200).redirect('/users/dashboard');
     } catch (error) {
-        res.status(400).json({
-            status: 'Faild',
-            error: error.message,
-        });
+        req.flash('error', `Enrollment in the course "${req.body.course_name}" was unsuccessful.`);
+        res.status(200).redirect('/users/dashboard');
     }
 };
 

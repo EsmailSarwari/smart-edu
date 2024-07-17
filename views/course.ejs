@@ -25,6 +25,7 @@
 								<div class="post-date">
 									<form method="POST" action="/courses/enroll">
 										<input type="hidden" name="course_id" value="<%= course._id %>">
+										<input type="hidden" name="course_name" value="<%= course.name %>">
 										<button class="btn btn-warning btn-lg text-white"><span>Enroll</span></button>
 									</form>
 								</div>
