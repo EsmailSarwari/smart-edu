@@ -73,7 +73,8 @@
 										<form method="POST" action="/courses/release">
 											<input type="hidden" name="course_id" value="<%= studentCourses[i]._id %>">
 											<button
-												class="btn btn-danger btn-lg text-white"><span>Release</span></button>
+												class="btn btn-danger btn-lg text-white"><span>Release</span>
+											</button>
 										</form>
 									</div>
 								</div>
@@ -157,8 +158,12 @@
 											</a>
 											<div class="course-desc">
 												<p>
-													<%= teacherCourses[i].description.substring(0, 100) + '...' %>
+													<%= teacherCourses[i].description.substring(0, 70) + '...' %>
 												</p>
+											</div>
+											<div class="post-date">
+												<a href="/courses/<%= teacherCourses[i].slug%>?_method=DELETE" class="btn btn-danger text-white"><span>DELETE</span></a>
+												<a class="btn btn-warning text-white"><span>UPDATE</span></a>
 											</div>
 										</div>
 									</div>

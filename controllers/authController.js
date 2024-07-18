@@ -30,16 +30,16 @@ export const loginUser = async (req, res) => {
         if (!user) {
             req.flash('error', 'User does not exist!');
             return res.status(400).redirect('/login');
-        } else {
-            const passMatch = await bcrypt.compare(password, user.password);
-            if (!passMatch) {
-                req.flash('error', 'Invalid Password!');
-                return res.status(400).redirect('/login');
-            }
-
-            req.session.userID = user._id;
-            res.status(200).redirect('/users/dashboard');
         }
+        
+        const passMatch = await bcrypt.compare(password, user.password);
+        if (!passMatch) {
+            req.flash('error', 'Invalid Password!');
+            return res.status(400).redirect('/login');
+        }
+
+        req.session.userID = user._id;
+        res.status(200).redirect('/users/dashboard');
     } catch (error) {
         console.error(error);
         req.flash('error', 'An error occurred while logging in.');
