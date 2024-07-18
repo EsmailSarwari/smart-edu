@@ -1,35 +1,19 @@
 import bcrypt from 'bcrypt';
+import { validationResult } from 'express-validator';
 import User from '../models/userModel.js';
 import Category from '../models/categoryModel.js';
 import Courses from '../models/courseModel.js';
 
 export const createUser = async (req, res) => {
     try {
-        if (
-            !req.body.name ||
-            !req.body.email ||
-            !req.body.password ||
-            !req.body.role
-        ) {
-            return res.status(400).json({
-                status: 'Fail',
-                message: 'Please fill out all the options',
-            });
-        }
-        const user = await User.create(req.body);
+        await User.create(req.body);
         res.status(201).redirect('/login');
     } catch (error) {
-        if (error.name === 'ValidationError') {
-            return res.status(400).json({
-                status: 'Fail',
-                message: 'Validation error',
-                details: error.errors,
-            });
+        const errors = validationResult(req);
+        for (let i = 0; i < errors.array().length; i++) {
+            req.flash(`${errors.array()[i].path}`, `${errors.array()[i].msg}`);
         }
-        res.status(400).json({
-            status: 'Error',
-            message: error.message,
-        });
+        res.status(400).redirect('/register');
     }
 };
 
@@ -38,48 +22,28 @@ export const loginUser = async (req, res) => {
         const { email, password } = req.body;
 
         if (!email || !password) {
-            return res.status(400).json({
-                status: 'Fail',
-                message: 'Please fill out all the options',
-            });
+            req.flash('error', 'Please fill out all fields');
+            return res.status(400).redirect('/login');
         }
 
         const user = await User.findOne({ email });
-
         if (!user) {
-            return res.status(400).json({
-                status: 'Fail',
-                message: 'Invalid email or password',
-            });
+            req.flash('error', 'User does not exist!');
+            return res.status(400).redirect('/login');
+        } else {
+            const passMatch = await bcrypt.compare(password, user.password);
+            if (!passMatch) {
+                req.flash('error', 'Invalid Password!');
+                return res.status(400).redirect('/login');
+            }
+
+            req.session.userID = user._id;
+            res.status(200).redirect('/users/dashboard');
         }
-
-        const isMatch = await bcrypt.compare(password, user.password);
-
-        if (!isMatch) {
-            return res.status(400).json({
-                status: 'Fail',
-                message: 'Invalid email or password',
-            });
-        }
-
-        // Start session for the user
-        req.session.userID = user._id;
-
-        res.status(200).redirect('/users/dashboard');
     } catch (error) {
-        // Handle different types of errors
-        if (error.name === 'ValidationError') {
-            return res.status(400).json({
-                status: 'Fail',
-                message: 'Validation error',
-                details: error.errors,
-            });
-        }
-        res.status(500).json({
-            status: 'Error',
-            message: 'An error occurred during login',
-            details: error.message,
-        });
+        console.error(error);
+        req.flash('error', 'An error occurred while logging in.');
+        res.status(500).redirect('/login');
     }
 };
 
@@ -92,7 +56,7 @@ export const logOutUser = (req, res) => {
 export const getDashboardPage = async (req, res) => {
     const user = await User.findOne({ _id: req.session.userID });
     const teacherCourses = await Courses.find({ user: req.session.userID });
-    const studentCourses = await Courses.find({ _id: user.courses});
+    const studentCourses = await Courses.find({ _id: user.courses });
     const categories = await Category.find();
 
     res.status(200).render('dashboard', {

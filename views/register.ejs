@@ -12,12 +12,23 @@
                             <form method="POST" action="users/singup">
                                 <div class="row row-fluid">
                                     <div class="offset-1 col-lg-10 col-md-10 col-sm-10">
+                                        <% if (flashMessages) { %>
                                         <input type="text" name="name" id="name" class="form-control"
                                             placeholder="Name">
+                                            <% if (flashMessages.name) { %>
+                                                <div class="alert alert-danger">
+                                                    <%= flashMessages.name %>
+                                                </div>
+                                            <% } %>
                                     </div>
                                     <div class="offset-1 col-lg-10 col-md-10 col-sm-10">
                                         <input type="email" name="email" id="email" class="form-control"
                                             placeholder="Email">
+                                            <% if (flashMessages.email) { %>
+                                                <div class="alert alert-danger">
+                                                    <%= flashMessages.email %>
+                                                </div>
+                                            <% } %>
                                     </div>
                                     <div class="offset-1 col-lg-10 col-md-10 col-sm-10">
                                         <select class="form-control" name="role">
@@ -28,7 +39,14 @@
                                     <div class="offset-1 col-lg-10 col-md-10 col-sm-10">
                                         <input type="password" name="password" id="password" class="form-control"
                                             placeholder="Password">
+                                            <% if (flashMessages.password) { %>
+                                                <div class="alert alert-danger">
+                                                    <%= flashMessages.password %>
+                                                </div>
+    
+                                            <% } %>
                                     </div>
+                                    <% } %>
                                     <div class="offset-1 col-lg-10 col-md-10 col-sm-10">
                                         <button type="submit" value="LOGIN" id="submit"
                                             class="btn btn-light btn-radius btn-brd grd1 btn-block">REGISTER</button>
