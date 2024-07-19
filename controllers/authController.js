@@ -81,3 +81,6 @@ export const deleteUser = async (req, res) => {
         return res.status(500).redirect('/users/dashboard');
     }
 };
+
+
+

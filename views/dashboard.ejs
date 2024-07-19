@@ -170,7 +170,7 @@
 						</div>
 				</div><!-- end col -->
 
-				<!-- UPDATE Modal -->
+				<!-- UPDATE Course Modal -->
 				<div class="modal fade" id="updateModal<%= teacherCourses[i]._id %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 					<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
 						<div class="modal-content">
@@ -233,7 +233,7 @@
 			</div><!-- end container -->
 			</div><!-- end section -->
 
-			<!-- ADD Modal -->
+			<!-- ADD Course Modal -->
 			<div class="modal fade" id="addCourse" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 				<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
 					<div class="modal-content">
@@ -341,8 +341,10 @@
 							<% } %>
 
 					<% } %>
-
+					
+					<!--  Users section -->
 					<div class="row mt-5">
+						<h3>Users</h3>
 						<table class="table table-striped">
 							<thead>
 							  <tr>
@@ -353,21 +355,83 @@
 							  </tr>
 							</thead>
 							<tbody>
-
-							<% for (let i=0; i < users.length; i++) { %>
-
-							  <tr>
-								<th scope="row"><%= users[i]._id %></th>
-								<td><%= users[i].email %></td>
-								<td><%= users[i].role %></td>
-								<td>
-									<% if(users[i].role !== 'admin') { %>
-										<a href="/users/<%= users[i]._id%>?_method=DELETE"><i class="fa fa-trash-o" style="font-size:24px"></i></a>
-										<a data-toggle="modal" data-target="#updateModal<%= users[i]._id %>"><i class="fa fa-edit" style="font-size:24px"></i></a>
+								<% for (let i=0; i < users.length; i++) { %>
+									<tr>
+										<th scope="row"><%= users[i]._id %></th>
+										<td><%= users[i].email %></td>
+										<td><%= users[i].role %></td>
+										<td>
+											<% if(users[i].role !== 'admin') { %>
+												<a href="/users/<%= users[i]._id%>?_method=DELETE"><i class="fa fa-trash-o" style="font-size:24px"></i></a>
+												<a data-toggle="modal" data-target="#updateModal<%= users[i]._id %>"><i class="fa fa-edit" style="font-size:24px"></i></a>
+											<% } %>
+										</td>
+									</tr>
+								<% } %>
+							</tbody>
+						</table>
+					</div>
+					
+					<!-- Categories Section -->
+					<div class="row mt-5">
+						<h3>Catgories</h3>
+						<table class="table table-striped">
+							<thead>
+								<tr>
+									<th scope="col">ID</th>
+									<th scope="col">Name</th>
+									<th scope="col">Handle</th>
+									<% if (categories.length === 0) { %>
+										<th>
+											<a data-toggle="modal" data-target="#addCategoryModal" style="cursor: pointer;"><i class="fa fa-plus" style="font-size:24px"></i></a>
+										</th>
 									<% } %>
+								</tr>
+							</thead>
+							<tbody>
+								<% for (let i=0; i < categories.length; i++) { %>
+							  <tr>
+								<th scope="row"><%= categories[i]._id %></th>
+								<td><%= categories[i].name %></td>
+								<td>
+									<a href="/categories/<%= categories[i]._id%>?_method=DELETE"><i class="fa fa-trash-o" style="font-size:24px"></i></a>
+									<a data-toggle="modal" data-target="#updatCategoryModal<%= categories[i]._id %>" style="cursor: pointer;"><i class="fa fa-edit" style="font-size:24px"></i></a>
+									<a data-toggle="modal" data-target="#addCategoryModal" style="cursor: pointer;"><i class="fa fa-plus" style="font-size:24px"></i></a>
 								</td>
-
 							  </tr>
+
+								<!-- UPDATE Category Modal -->
+								<div class="modal fade" id="updatCategoryModal<%= categories[i]._id %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+									<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+										<div class="modal-content">
+											<div class="modal-body customer-box">
+												<!-- Tab panes -->
+												<div class="tab-content">
+													<div class="tab-pane active" id="Login">
+														<form method="POST" action="/categories/<%= categories[i]._id%>?_method=PUT" class="form-horizontal">
+
+															<div class="form-group">
+																<div class="col-sm-12">
+																	<input type="text" name="name" class="form-control"
+																		placeholder="Course Name" value="<%= categories[i].name %>">
+																</div>
+															</div>
+															<div class="row">
+																<div class="col-sm-10">
+																	<button type="submit"
+																		class="btn btn-light btn-radius btn-brd grd1">Submit</button>
+																	<button type="submit"
+																		class="btn btn-light btn-radius btn-brd grd1"
+																		data-dismiss="modal" aria-hidden="true">Cancel</button>
+																</div>
+															</div>
+														</form>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
 							  <% } %>
 							</tbody>
 						  </table>
@@ -375,6 +439,38 @@
 				</div><!-- end row -->
 			</div><!-- end container -->
 			</div><!-- end section -->
+
+			<!-- ADD Category Modal -->
+			<div class="modal fade" id="addCategoryModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+				<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+					<div class="modal-content">
+						<div class="modal-body customer-box">
+							<!-- Tab panes -->
+							<div class="tab-content">
+								<div class="tab-pane active" id="Login">
+									<form method="POST" action="/categories" class="form-horizontal">
+										<div class="form-group">
+											<div class="col-sm-12">
+												<input type="text" name="name" class="form-control"
+													placeholder="Course Name">
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-sm-10">
+												<button type="submit"
+													class="btn btn-light btn-radius btn-brd grd1">Submit</button>
+												<button type="submit"
+													class="btn btn-light btn-radius btn-brd grd1"
+													data-dismiss="modal" aria-hidden="true">Cancel</button>
+											</div>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
 
 		<% } %>
 
