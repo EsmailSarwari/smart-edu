@@ -87,150 +87,210 @@
 
 			<% } %>
 
-				<% if (isUserSignedIn && user.role==='teacher' ) { %>
+			<% if (isUserSignedIn && user.role==='teacher' ) { %>
 
-					<div class="all-title-box">
-						<div class="container text-center">
-							<h1>
-								<%= user.name %><span class="m_1">
-										<%= `Welcome to ${user.role}'s Dashboard` %>
-									</span>
-							</h1>
-						</div>
+				<div class="all-title-box">
+					<div class="container text-center">
+						<h1>
+							<%= user.name %><span class="m_1">
+									<%= `Welcome to ${user.role}'s Dashboard` %>
+								</span>
+						</h1>
 					</div>
+				</div>
 
-					<!-- main container -->
-					<div id="overviews" class="section wb">
-						<!-- Modal Button -->
-						<div class="col-lg-12 text-center ">
-							<button class="btn btn-lg btn-warning rounded-0 text-white" href="#" data-toggle="modal"
-								data-target="#addCourse"><span>CREATE NEW COURSE</span></button>
-						</div>
-						<div class="container">
-							<div class="row">
-								<div class="col-lg-12 blog-post-single">
-									<div class="blog-author">
-										<div class="author-bio">
-											<h3 class="author_name"><a href="#">
-													<%= user.name %>
-												</a></h3>
-											<h5>INSTRUCTOR at <a href="#">SmartEDU</a></h5>
-										</div>
-										<div class="author-desc">
-											<img src="/images/author.jpg" alt="about author">
-										</div>
+				<!-- main container -->
+				<div id="overviews" class="section wb">
+					<!-- Modal Button -->
+					<div class="col-lg-12 text-center ">
+						<button class="btn btn-lg btn-warning rounded-0 text-white" href="#" data-toggle="modal"
+							data-target="#addCourse"><span>CREATE NEW COURSE</span></button>
+					</div>
+					<div class="container">
+						<div class="row">
+							<div class="col-lg-12 blog-post-single">
+								<div class="blog-author">
+									<div class="author-bio">
+										<h3 class="author_name"><a href="#">
+												<%= user.name %>
+											</a></h3>
+										<h5>INSTRUCTOR at <a href="#">SmartEDU</a></h5>
 									</div>
-
-								</div><!-- end col -->
-							</div><!-- end row -->
-							<br>
-							
-							<% if (flashMessages) { %>
-
-								<% if (flashMessages.success) { %>
-									<div class="alert alert-success">
-										<%= flashMessages.success %>
+									<div class="author-desc">
+										<img src="/images/author.jpg" alt="about author">
 									</div>
-	
-								<% } else if(flashMessages.error) { %>
-									<div class="alert alert-danger">
-										<%= flashMessages.error %>
-									</div>
-									<% } %>
-	
-							<% } %>
+								</div>
 
-							<div class="row mt-5">
-
-								<% for (let i=0; i < teacherCourses.length; i++) { %>
-									<div class="col-lg-6 col-md-6 col-12">
-										<div class="course-item mb-5">
-											<a href="/courses/<%= teacherCourses[i].slug %>" title="">
-												<div class="image-blog">
-													<img src="/images/blog_1.jpg" alt="" class="img-fluid">
-												</div>
-												<div class="course-br">
-													<div class="course-title">
-														<h2>
-															<%= teacherCourses[i].name %>
-														</h2>
-													</div>
-											</a>
-											<div class="course-desc">
-												<p>
-													<%= teacherCourses[i].description.substring(0, 70) + '...' %>
-												</p>
-											</div>
-											<div class="post-date">
-												<a href="/courses/<%= teacherCourses[i].slug%>?_method=DELETE" class="btn btn-danger text-white"><span>DELETE</span></a>
-												<a class="btn btn-warning text-white"><span>UPDATE</span></a>
-											</div>
-										</div>
-									</div>
 							</div><!-- end col -->
-							<% } %>
 						</div><!-- end row -->
-					</div><!-- end container -->
-					</div><!-- end section -->
+						<br>
+						
+						<% if (flashMessages) { %>
 
-					<!-- ADD Modal -->
-					<div class="modal fade" id="addCourse" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-						<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-							<div class="modal-content">
-								<div class="modal-body customer-box">
-									<!-- Tab panes -->
-									<div class="tab-content">
-										<div class="tab-pane active" id="Login">
-											<form method="POST" action="/courses" class="form-horizontal">
+							<% if (flashMessages.success) { %>
+								<div class="alert alert-success">
+									<%= flashMessages.success %>
+								</div>
 
-												<div class="form-group">
-													<div class="col-sm-12">
-														<input type="text" name="name" class="form-control"
-															placeholder="Course Name">
-													</div>
-												</div>
+							<% } else if(flashMessages.error) { %>
+								<div class="alert alert-danger">
+									<%= flashMessages.error %>
+								</div>
+								<% } %>
 
-												<div class="form-group">
-													<div class="col-sm-12">
-														<input type="hidden" name="role" class="form-control"
-															value="<%= user.role %>">
-													</div>
-												</div>
+						<% } %>
 
-												<div class="form-group">
-													<div class="col-sm-12">
-														<textarea rows="8" name="description" class="form-control"
-															placeholder="Course Description" required></textarea>
-													</div>
-												</div>
+						<div class="row mt-5">
+							<% for (let i=0; i < teacherCourses.length; i++) { %>
 
-												<div class="form-group">
-													<div class="col-sm-12">
-														<select class="form-control" name="category">
-															<% for (let i=0 ; i < categories.length; i++) { %>
-																<option value="<%= categories[i]._id %>">
-																	<%= categories[i].name %>
-																</option>
-																<% } %>
-														</select>
+								<div class="col-lg-6 col-md-6 col-12">
+									<div class="course-item mb-5">
+										<a href="/courses/<%= teacherCourses[i].slug %>" title="">
+											<div class="image-blog">
+												<img src="/images/blog_1.jpg" alt="" class="img-fluid">
+											</div>
+										
+										<div class="course-br">
+											<div class="course-title">
+												<h2>
+													<%= teacherCourses[i].name %>
+												</h2>
+											</div>
+										</a>
+										<div class="course-desc">
+											<p>
+												<%= teacherCourses[i].description.substring(0, 70) + '...' %>
+											</p>
+										</div>
+										<div class="post-date">
+											<a href="/courses/<%= teacherCourses[i].slug%>?_method=DELETE" class="btn btn-danger text-white"><span>DELETE</span></a>
+											<a data-toggle="modal" data-target="#updateModal<%= teacherCourses[i]._id %>" class="btn btn-warning text-white"><span>UPDATE</span></a>
+										</div>
+									</div>
+								</div>
+						</div><!-- end col -->
+
+						<!-- UPDATE Modal -->
+						<div class="modal fade" id="updateModal<%= teacherCourses[i]._id %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+							<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+								<div class="modal-content">
+									<div class="modal-body customer-box">
+										<!-- Tab panes -->
+										<div class="tab-content">
+											<div class="tab-pane active" id="Login">
+												<form method="POST" action="/courses/<%= teacherCourses[i].slug%>?_method=PUT" class="form-horizontal">
+
+													<div class="form-group">
+														<div class="col-sm-12">
+															<input type="text" name="name" class="form-control"
+																placeholder="Course Name" value="<%= teacherCourses[i].name %>">
+														</div>
 													</div>
-												</div>
-												<div class="row">
-													<div class="col-sm-10">
-														<button type="submit"
-															class="btn btn-light btn-radius btn-brd grd1">Submit</button>
-														<button type="submit"
-															class="btn btn-light btn-radius btn-brd grd1"
-															data-dismiss="modal" aria-hidden="true">Cancel</button>
+
+													<div class="form-group">
+														<div class="col-sm-12">
+															<input type="hidden" name="role" class="form-control"
+																value="<%= user.role %>">
+														</div>
 													</div>
-												</div>
-											</form>
+
+													<div class="form-group">
+														<div class="col-sm-12">
+															<textarea rows="8" name="description" class="form-control"
+																placeholder="Course Description" required><%= teacherCourses[i].description %></textarea>
+														</div>
+													</div>
+
+													<div class="form-group">
+														<div class="col-sm-12">
+															<select class="form-control" name="category">
+																<% for (let i=0 ; i < categories.length; i++) { %>
+																	<option value="<%= categories[i]._id %>">
+																		<%= categories[i].name %>
+																	</option>
+																	<% } %>
+															</select>
+														</div>
+													</div>
+													<div class="row">
+														<div class="col-sm-10">
+															<button type="submit"
+																class="btn btn-light btn-radius btn-brd grd1">Submit</button>
+															<button type="submit"
+																class="btn btn-light btn-radius btn-brd grd1"
+																data-dismiss="modal" aria-hidden="true">Cancel</button>
+														</div>
+													</div>
+												</form>
+											</div>
 										</div>
 									</div>
 								</div>
 							</div>
 						</div>
+							<% } %>
+				</div><!-- end row -->
+				</div><!-- end container -->
+				</div><!-- end section -->
+
+				<!-- ADD Modal -->
+				<div class="modal fade" id="addCourse" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+					<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+						<div class="modal-content">
+							<div class="modal-body customer-box">
+								<!-- Tab panes -->
+								<div class="tab-content">
+									<div class="tab-pane active" id="Login">
+										<form method="POST" action="/courses" class="form-horizontal">
+
+											<div class="form-group">
+												<div class="col-sm-12">
+													<input type="text" name="name" class="form-control"
+														placeholder="Course Name">
+												</div>
+											</div>
+
+											<div class="form-group">
+												<div class="col-sm-12">
+													<input type="hidden" name="role" class="form-control"
+														value="<%= user.role %>">
+												</div>
+											</div>
+
+											<div class="form-group">
+												<div class="col-sm-12">
+													<textarea rows="8" name="description" class="form-control"
+														placeholder="Course Description" required></textarea>
+												</div>
+											</div>
+
+											<div class="form-group">
+												<div class="col-sm-12">
+													<select class="form-control" name="category">
+														<% for (let i=0 ; i < categories.length; i++) { %>
+															<option value="<%= categories[i]._id %>">
+																<%= categories[i].name %>
+															</option>
+															<% } %>
+													</select>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-sm-10">
+													<button type="submit"
+														class="btn btn-light btn-radius btn-brd grd1">Submit</button>
+													<button type="submit"
+														class="btn btn-light btn-radius btn-brd grd1"
+														data-dismiss="modal" aria-hidden="true">Cancel</button>
+												</div>
+											</div>
+										</form>
+									</div>
+								</div>
+							</div>
+						</div>
 					</div>
+				</div>
 
 					<% } %>
 
