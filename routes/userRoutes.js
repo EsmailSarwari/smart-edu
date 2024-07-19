@@ -23,5 +23,6 @@ Router.route('/singup').post(
 Router.route('/login').post(userController.loginUser);
 Router.route('/logout').get(userController.logOutUser);
 Router.route('/dashboard').get(authMiddleware, userController.getDashboardPage);
+Router.route('/:id').delete(userController.deleteUser);
 
 export default Router;

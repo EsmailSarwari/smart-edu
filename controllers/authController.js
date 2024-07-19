@@ -31,7 +31,7 @@ export const loginUser = async (req, res) => {
             req.flash('error', 'User does not exist!');
             return res.status(400).redirect('/login');
         }
-        
+
         const passMatch = await bcrypt.compare(password, user.password);
         if (!passMatch) {
             req.flash('error', 'Invalid Password!');
@@ -58,12 +58,26 @@ export const getDashboardPage = async (req, res) => {
     const teacherCourses = await Courses.find({ user: req.session.userID });
     const studentCourses = await Courses.find({ _id: user.courses });
     const categories = await Category.find();
-
+    const users = await User.find();
     res.status(200).render('dashboard', {
         page_name: 'dashboard',
         user,
         categories,
         teacherCourses,
         studentCourses,
+        users,
     });
+};
+
+export const deleteUser = async (req, res) => {
+    try {
+        const user = await User.findByIdAndDelete(req.params.id);
+        await Courses.deleteMany({user: user._id});
+        req.flash('success', `User, ${user.name}, has been deleted successfully`);
+        return res.status(200).redirect('/users/dashboard');
+    } catch (error) {
+        console.error(`Error occurred while deleting user: ${error}`);
+        req.flash('error', 'Deletion unsuccessful');
+        return res.status(500).redirect('/users/dashboard');
+    }
 };
