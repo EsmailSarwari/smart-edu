@@ -83,8 +83,8 @@ export const getCourse = async (req, res) => {
         const user = await User.findOne({ _id: req.session.userID });
         const course = await Course.findOne({ slug: req.params.slug });
         const whichTeacher = await User.findById({ _id: course.user });
-
         const categories = await Category.find();
+        
         res.status(200).render('course', {
             user,
             course,
